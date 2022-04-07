@@ -1,0 +1,177 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style": {
+		// 		"navigationBarTitleText": "uni-app"
+		// 	}
+		// }
+		{
+		    "path" : "pages/home/home",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		},
+	    {
+            "path" : "pages/login/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/user/user",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的",
+                "enablePullDownRefresh": false
+            }
+        }
+		,{
+		    "path" : "pages/Sprinkler/Sprinkler",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "播客",
+		        "enablePullDownRefresh": false
+		    } 
+		}
+        ,{
+            "path" : "pages/focus/focus",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cloudVillage/cloudVillage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/playlist/playlist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+        }
+		,{
+		    "path" : "pages/playlist/playlistDetail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "歌单",
+		        "enablePullDownRefresh": false
+		    }
+		}
+        ,{
+            "path" : "pages/topRank/topRank",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/songlist/songlist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/play/play",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/comment/comment",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"tabBar" : {
+		"color" : "#9c9c9c",
+		"selectedColor" : "#FFFFFF",
+		"borderStyle" : "white",
+		"backgroundColor" : "#000000",
+		"list" : [
+			{
+				"pagePath":"pages/home/home",
+				"text":"发现",
+				"iconPath":"/static/tabbar/cm2_btm_icn_discovery.png",
+				"selectedIconPath":"/static/tabbar/cm2_btm_icn_discovery_prs.png"
+				
+			},
+			{
+				"pagePath":"pages/Sprinkler/Sprinkler",
+				"text":"播客",
+				"iconPath":"/static/tabbar/cm2_btm_icn_music.png",
+				"selectedIconPath":"/static/tabbar/cm2_btm_icn_music_prs.png"
+			},
+			{
+				"pagePath":"pages/user/user",
+				"text":"我的",
+				"iconPath":"/static/tabbar/cm2_btm_icn_music.png",
+				"selectedIconPath":"/static/tabbar/cm2_btm_icn_music_prs.png"
+			},
+			{
+				"pagePath":"pages/focus/focus",
+				"text":"关注",
+				"iconPath":"/static/tabbar/cm2_btm_icn_music.png",
+				"selectedIconPath":"/static/tabbar/cm2_btm_icn_music_prs.png"
+			},
+			{
+				"pagePath":"pages/cloudVillage/cloudVillage",
+				"text":"云村",
+				"iconPath":"/static/tabbar/cm2_btm_icn_music.png",
+				"selectedIconPath":"/static/tabbar/cm2_btm_icn_music_prs.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	},
+	"requiredBackgroundModes": ["audio"]
+}

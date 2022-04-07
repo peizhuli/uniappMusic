@@ -54,6 +54,7 @@
 		background-color: #f5f5f5;
 		opacity: 0.99;
 		z-index: 10;
+		overflow-y: scroll;
 		.list-title {
 			.title {
 				font-size: 32rpx;

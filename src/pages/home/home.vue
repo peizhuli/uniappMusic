@@ -18,7 +18,7 @@
 		<view class="recommend-container">
 			<view class="recommend-title">
 				<text class="title">推荐歌单</text>
-				<view class="more">
+				<view class="more" @click="goRecommendPlaylist">
 					<text>更多 &gt;</text>
 				</view>
 			</view>
@@ -36,7 +36,7 @@
 		<view class="top-list-container">
 			<view class="recommend-title">
 				<text class="title">排行榜</text>
-				<view class="more">
+				<view class="more" @click="goToRank">
 					<text>更多 &gt;</text>
 				</view>
 			</view>
@@ -45,7 +45,7 @@
 					<view class="top-title">
 						<text>{{ item.name }} &gt;</text>
 					</view>
-					<view class="top-item" v-for="(ele, index) in item.songs" :key="index" @click="gotoPlaying(ele.id)">
+					<view class="top-item" v-for="(ele, index) in item.songs" :key="index" @click="gotoPlaying(ele)">
 						<view class="item-image">
 							<image :src="ele.al.picUrl" />
 							<view class="song-info">
@@ -79,7 +79,7 @@
 						id: '1',
 						icon: '../../static/icon/cm2_discover_icn_recmd@2x.png',
 						name: '每日推荐',
-						url: '/pages/playlist/playlist'
+						url: '/pages/dailyRecommend/dailyRecommend'
 					},
 					{
 						id: '2',
@@ -162,9 +162,20 @@
 					url: '/pages/playlist/playlistDetail?playlistId=' + id
 				})
 			},
-			gotoPlaying(id) {
+			gotoPlaying(item) {
+				this.$store.commit('song/SET_PLAYLIST', [item])
 				uni.navigateTo({
-					url: '/pages/play/play?playId=' + id
+					url: '/pages/play/play?playId=' + item.id
+				})
+			},
+			goToRank() {
+				uni.navigateTo({
+					url: '/pages/topRank/topRank'
+				})
+			},
+			goRecommendPlaylist() {
+				uni.navigateTo({
+					url: '/pages/playlist/recommendPlaylist'
 				})
 			}
 		}

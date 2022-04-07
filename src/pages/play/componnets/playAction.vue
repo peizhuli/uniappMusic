@@ -143,7 +143,7 @@
 				}
 				// 随机播放
 				else if(this.isRadom){
-					this.shuffle()
+					this.playRandom()
 				}
 				else{
 					let length = this.playlist.length;
@@ -168,7 +168,7 @@
 				this.$store.commit('song/SET_PLAYING', !this.isPlaying)
 			},
 			//下一曲
-			hanlenext(){			
+			hanlenext() {			
 				if(this.playlist.length < 2){
 					uni.showToast({
 						title: '此曲为单曲',
@@ -176,7 +176,7 @@
 					})
 				}
 				else if(this.isRadom){
-				    this.shuffle()
+				    this.playRandom()
 				}
 				else{
 					let length = this.playlist.length;
@@ -195,45 +195,34 @@
 				this.$emit('openPlayList')
 			},
 			//随机播放事件
-			shuffle(){
-				let id=this.Id;
-			    let {playIdList}=this;
-			    let length=playIdList.length;
-				if(length<2){
-					this.getMusicSrc(this.Id,true);
+			playRandom(){
+			    let length = this.playlist.length;
+				if(length < 2){
+					let song = this.playlist.filter(item => item.id === this.playId)
+					this.$emit('changeSong', song[0])
 					return;
 				}
-			    if(length==1){
-			      id=playIdList[0];
-			    }else{
-			      do{
-			        var index=this.GetRandomNum(0,length);
-			      }
-			      while ( (id==playIdList[index])||(index>=playIdList.length) ) 
-			      id=playIdList[index]
-			    }
-				this.getMusicSrc(id,false);
+				let index = this.GetRandomNum(0, length);
+				this.$emit('changeSong', this.playlist[index])
 			  },
 			//随机函数
 			GetRandomNum(Min, Max) {
-			    var Range = Max - Min;
-			    var Rand = Math.random();
+			    let Range = Max - Min;
+			    let Rand = Math.random();
 			    return(Min + Math.round(Rand * Range));
 			},
 			//播放结束事件
 			handleIsshuffle(){
-				let {isshuffle}=this;
-				let {isloop}=this;
-				    if(isloop){
-						this.getMusicSrc(this.Id,true);
-				    }
-				    else{
-				      if(isshuffle){
-				        this.shuffle();
-				      }
-				      else{
-				        this.hanlenext();
-				      }
+				if(this.isloop) {
+					let song = this.playlist.filter(item => item.id === this.playId)
+					this.$emit('changeSong', song[0])
+				} else {
+				  if(this.isRadom){
+				    this.playRandom();
+				  }
+				  else{
+				    this.hanlenext();
+				  }
 				}
 			},
 			

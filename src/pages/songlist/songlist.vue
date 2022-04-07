@@ -8,7 +8,7 @@
 		<swiper class="playlist-swiper" :current="currentIndex" @change="changeSwiper">
 			<swiper-item class="swiper-item" v-for="(item, idx) in catSongs" :key="item.id">
 				<view v-if="item.name === '单曲'" class="playlist-list-1">
-					<view class="playlist-item" v-for="(ele, songIndex) in item.playlist" :key="songIndex" @click="gotoPlaying(ele.id)">
+					<view class="playlist-item" v-for="(ele, songIndex) in item.playlist" :key="songIndex" @click="gotoPlaying(ele)">
 						<view class="cover-title">
 							<!-- <text class="copyright" v-if="ele.originCoverType">原唱</text> -->
 							<!-- <text v-if="ele.copyright" class="copyright">原唱</text> -->
@@ -23,7 +23,7 @@
 					</view>
 				</view>
 				<view v-if="item.name === '歌单'" class="playlist-list-2">
-					<view class="playlist-item" v-for="ele in item.playlist" :key=ele.id>
+					<view class="playlist-item" v-for="(ele, playlistIndex) in item.playlist" :key="playlistIndex" @click="gotoPlaylist(ele.id)">
 						<image class="cover-image" :src="ele.coverImgUrl" />
 						<view class="cover-info">
 							<view class="cover-title">
@@ -107,7 +107,7 @@
 					</view>
 				</view>
 				<view v-if="item.name === '专辑'" class="playlist-list-2">
-					<view class="playlist-item" v-for="ele in item.playlist" :key=ele.id>
+					<view class="playlist-item" v-for="(ele, albumIndex) in item.playlist" :key="albumIndex" @click="gotoPlaylist(ele.id)">
 						<image class="cover-image" :src="ele.picUrl" />
 						<view class="cover-info">
 							<view class="cover-title">
@@ -356,9 +356,15 @@
 				let replace = `<span style="color: ${ color };">$1</span>`
 				return text.replace(reg, replace)
 			},
-			gotoPlaying(playId) {
+			gotoPlaylist(id) {
 				uni.navigateTo({
-					url: '/pages/play/play?playId=' + playId
+					url: '/pages/playlist/playlistDetail?playlistId=' + id
+				})
+			},
+			gotoPlaying(song) {
+				this.$store.commit('song/SET_PLAYLIST', [song])
+				uni.navigateTo({
+					url: '/pages/play/play?playId=' + song.id
 				})
 			}
 		}

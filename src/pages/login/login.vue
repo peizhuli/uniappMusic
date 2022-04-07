@@ -87,6 +87,7 @@
 					console.log(res)
 					if (res.code === 200) {
 						this.$store.commit('user/SET_USER_INFO', res)
+						uni.setStorageSync('userinfo' ,res);
 						uni.switchTab({
 							url: '/pages/user/user',
 							animationType: 'pop-in'

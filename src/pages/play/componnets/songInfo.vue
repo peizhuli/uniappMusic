@@ -56,7 +56,6 @@
 			}
 		},
 		created() {
-			console.log(this.songInfo)
 			this.$set(this.actions[0], 'value', this.songInfo.ar[0].name)
 			this.$set(this.actions[1], 'value', this.songInfo.al.name)
 		},

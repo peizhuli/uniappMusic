@@ -117,6 +117,24 @@
             }
             
         }
+		,{
+            "path" : "pages/playlist/recommendPlaylist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "推荐歌单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/dailyRecommend/dailyRecommend",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar" : {
 		"color" : "#9c9c9c",

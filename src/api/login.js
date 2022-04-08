@@ -8,8 +8,8 @@ function loginByEmail(params) {
 	return request({ url: '/login', data: params })
 }
 
-function getCaptcha(params) {
-	return request({ url: '/captcha/sent', data: params })
+function getCaptcha(phone) {
+	return request({ url: '/captcha/sent?phone='+ phone })
 }
 
 function veifyCaptcha(params) {
@@ -19,5 +19,6 @@ function veifyCaptcha(params) {
 export {
 	loginByPhone,
 	loginByEmail,
-	getCaptcha
+	getCaptcha,
+	veifyCaptcha
 }

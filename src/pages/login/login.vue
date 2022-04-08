@@ -9,9 +9,9 @@
 					<image src="../../static/wangyi.png"></image>
 				</view>
 				<view class="login-form">
-					<view class="phone-num">183****8737</view>
-					<button class="login-btn active">一键登录</button>
-					<button class="login-btn">微信登录</button>
+					<!-- <view class="phone-num">183****8737</view> -->
+					<button class="login-btn active" @click="showPhoneLogin">手机登录</button>
+					<button class="login-btn" @click="showEmailLogin">邮箱登录</button>
 					<view class="other-login-form">
 						<view class="other-login-item">
 							<image src="../../static/icon/cm2_discover_icn_radio@2x.png"></i>
@@ -19,7 +19,7 @@
 						<view class="other-login-item">
 							<image src="../../static/icon/cm2_discover_icn_radio@2x.png"></i>
 						</view>
-						<view class="other-login-item" @click="showEmailLogin">
+						<view class="other-login-item">
 							<image src="../../static/icon/cm2_discover_icn_radio@2x.png"></i>
 						</view>
 					</view>
@@ -33,11 +33,15 @@
 		<view v-else-if="showPhone" class="phone-container">
 			<form @submit="submitByPHone">
 				<view class="uni-form-item uni-column">
-					<view class="title">手机号</view>
-					<input class="uni-input" name="input" placeholder="请输入手机号" />
+					<!-- <view class="title">手机号</view> -->
+					<input v-model="formData.phone" class="uni-input" name="input" placeholder="请输入手机号" />
+					<view class="code-content">
+						<input v-model="formData.code" class="uni-input" name="input" placeholder="请输入验证码" />
+						<view class="code" @click="getCode">{{ codeText }}</view>
+					</view>
 				</view>
 				<view class="uni-btn-v">
-					<button form-type="submit">Submit</button>
+					<button class="login-btn" form-type="submit">登录</button>
 				</view>
 			</form>
 		</view>
@@ -59,16 +63,21 @@
 
 <script>
 	import { loginByPhone,  loginByEmail, getCaptcha, veifyCaptcha } from '../../api/login.js'
+	let timeout = null
 	export default {
 		data() {
 			return {
 				showLoginHome: true,
 				showPhone: false,
 				showEmail: true,
+				hasSendCode: false,
+				time: 60,
+				codeText: '获取验证码',
 				formData: {
 					phone: '',
-					email: 'ifkeyi@163.com',
-					password: 'lipeizhu714'
+					code: '',
+					email: '',
+					password: ''
 				}
 			};
 		},
@@ -78,13 +87,58 @@
 				this.showPhone = false
 				this.showEmail = true
 			},
-			submitByPHone() {},
+			showPhoneLogin() {
+				this.showLoginHome = false
+				this.showPhone = true
+				this.showEmail = false
+			},
+			getCode() {
+				getCaptcha(this.formData.phone).then(res => {
+					if (code === 200) {
+						this.hasSendCode = true
+						timeout = setInterval(() => {
+							this.time--
+							this.codeText = '重新发送(' + this.time + 's)'
+							if (this.time === 0) {
+								this.time = 60
+								this.hasSendCode = false
+								clearInterval(timeout)
+								this.codeText = '获取验证码'
+							}
+						}, 1000)
+					}
+				})
+			},
+			veifyCaptcha() {
+				return veifyCaptcha({ phone: this.formData.phone, captcha: this.formData.code })
+			},
+			async submitByPHone() {
+				let isValid = await this.veifyCaptcha()
+				if (isValid.code !== 200) {
+					uni.showToast({
+						title: '验证码错误',
+						icon: 'error'
+					});
+					return
+				}
+				loginByPhone({ phone: this.formData.phone, captcha: this.formData.code }).then(res => {
+					// console.log(res)
+					if (res.code === 200) {
+						this.$store.commit('user/SET_USER_INFO', res)
+						uni.setStorageSync('userinfo' ,res);
+						uni.switchTab({
+							url: '/pages/user/user',
+							animationType: 'pop-in'
+						})
+					}
+				})
+			},
 			loginByEmail() {
 				 uni.setNavigationBarTitle({
 				    title: '邮箱登录'
 				})
 				loginByEmail({ email: this.formData.email, password: this.formData.password }).then(res => {
-					console.log(res)
+					// console.log(res)
 					if (res.code === 200) {
 						this.$store.commit('user/SET_USER_INFO', res)
 						uni.setStorageSync('userinfo' ,res);
@@ -97,6 +151,10 @@
 					}
 				})
 			}
+		},
+		beforeDestroy() {
+			clearInterval(timeout)
+			timeout = null
 		}
 	}
 </script>
@@ -188,6 +246,7 @@
 			}
 		}
 	}
+	.phone-container,
 	.email-container {
 		width: 100%;
 		padding: 30rpx;
@@ -204,6 +263,17 @@
 			color: #fff;
 			border-radius: 60rpx;
 			background: #dd2d1e;
+		}
+		.code-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-end;
+			.code {
+			    padding: 6rpx 10rpx;
+			    text-align: center;
+			    border: 1rpx solid #ccc;
+			    border-radius: 16rpx;
+			}
 		}
 	}
 }

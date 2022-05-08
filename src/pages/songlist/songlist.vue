@@ -14,7 +14,7 @@
 							<!-- <text v-if="ele.copyright" class="copyright">原唱</text> -->
 						    <rich-text :nodes="formatText(ele.name)"></rich-text>
 						</view>
-						<view class="sub-title">
+						<view class="sub-title" @click.stop="gotoArtist(ele.ar[0].id)">
 							<rich-text :nodes="formatText(ele.ar[0].name)"></rich-text> - 
 							<rich-text :nodes="formatText(ele.al.name)"></rich-text>
 						</view>
@@ -365,6 +365,11 @@
 				this.$store.commit('song/SET_PLAYLIST', [song])
 				uni.navigateTo({
 					url: '/pages/play/play?playId=' + song.id
+				})
+			},
+			gotoArtist(id) {
+				uni.navigateTo({
+					url: '/pages/artist/artist?artistId=' + id
 				})
 			}
 		}

@@ -70,12 +70,18 @@
 				</view>
 			</view>
 		</view>
+		<play-widget v-if="playId"></play-widget>
 	</view>
 </template>
 
 <script>
+	import { mapState } from 'vuex';
 	import { getPlayList } from '../../api/user.js'
+	import playWidget from '../play/playWidget.vue'
 	export default {
+		components: {
+			playWidget
+		},
 		data() {
 			return {
 				likeCount: 0,
@@ -105,6 +111,7 @@
 			}
 		},
 		computed: {
+			...mapState('song', ['isPlaying', 'playlist', 'playId']),
 			userInfo() {
 				return this.$store.state.user.userInfo
 			}
@@ -126,7 +133,7 @@
 			},
 			getPlayList() {
 				getPlayList({ uid: this.userInfo.account.id , limit: 3, offset: 0 }).then(res => {
-					console.log(res)
+					// console.log(res)
 					this.playlist = res.playlist || []
 				})
 			}
@@ -248,36 +255,38 @@
 			padding: 30rpx;
 			background-color: #fff;
 			.playlist-list {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-			}
-			.list-content {
-				.list-item {
+				.list-header {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					margin-top: 20rpx;
-					.icon-content {
+				}
+				.list-content {
+					.list-item {
 						display: flex;
-						justify-content: flex-start;
+						justify-content: space-between;
 						align-items: center;
-						.icon {
-							width: 100rpx;
-							height: 100rpx;
-							border-radius: 30rpx;
-						}
-						.playlist-info {
-							padding-left: 30rpx;
-							.info-name {
-								font-size: 30rpx;
+						margin-top: 20rpx;
+						.icon-content {
+							display: flex;
+							justify-content: flex-start;
+							align-items: center;
+							.icon {
+								width: 100rpx;
+								height: 100rpx;
+								border-radius: 30rpx;
 							}
-							.info-count {
-								font-size: 20rpx;
+							.playlist-info {
+								padding-left: 30rpx;
+								.info-name {
+									font-size: 30rpx;
+								}
+								.info-count {
+									font-size: 20rpx;
+								}
 							}
 						}
+						.more-icon {}
 					}
-					.more-icon {}
 				}
 			}
 		}

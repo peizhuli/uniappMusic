@@ -1,5 +1,5 @@
 <template>
-	<view class="playing-container">
+	<view class="personal-fm-container">
 		<song-bg v-if="hasLoad" :isShowLyr="isShowLyric" @showLyr="showLyr"></song-bg>
 		<!-- 歌词 -->
 		<song-lyric ref="lyric" v-show="isShowLyric" :lyric="lyric" @hideLyr="hideLyr"></song-lyric>
@@ -8,26 +8,22 @@
 		<!-- 播放进度 -->
 		<play-bar v-if="hasLoad" @timeUpdate="timeUpdate"></play-bar>
 		<!-- 操作栏 -->
-		<play-action @openPlayList="openPlayList" @changeSong="changeSong"></play-action>
+		<play-action @openSongInfo="openSongInfo" @nextSong="getPersonalFM"></play-action>
 		<!-- 歌曲信息 -->
 		<song-infos v-if="showSongInfoBox"></song-infos>
-		<!-- 播放列表 -->
-		<playlist v-if="showPlayList" @changeSong="changeSong"></playlist>
 		<!-- 遮罩层 -->
 		<view v-show="showMask" class="mask-container" @tap="closeMask"></view>
 	</view>
 </template>
 
 <script>
-	import { mapState } from 'vuex'
+	import playBar from '../play/componnets/playBar.vue'
+	import songLyric from '../play/componnets/lyric.vue'
+	import songBg from './components/songBg.vue'
+	import playAction from './components/playAction.vue'
+	import songInfos from '../play/componnets/songInfo.vue'
+	import { getPersonalFM } from '../../api/personalized.js'
 	import { getSongDetail, getSongUrl, checkSongUrl, getLyric } from '../../api/songs.js'
-	import playBar from './componnets/playBar.vue'
-	import songLyric from './componnets/lyric.vue'
-	import songBg from './componnets/songBg.vue'
-	import playAction from './componnets/playAction.vue'
-	import songAction from './componnets/songAction.vue'
-	import songInfos from './componnets/songInfo.vue'
-	import playlist from './componnets/playlist.vue'
 	let audioCtx = uni.getBackgroundAudioManager()
 	export default {
 		components: {
@@ -35,50 +31,60 @@
 			songLyric,
 			songBg,
 			playAction,
-			songAction,
-			songInfos,
-			playlist
+			songInfos
 		},
 		data() {
 			return {
 				playId: '',
-				playListId: '',
 				lyric: '',
 				songInfo: {},
 				isShowLyric: false, // 是否显示歌词
 				showSongInfoBox: false,
 				showMask: false,
-				showPlayList: false,
 				hasLoad: false
 			}
 		},
-		onLoad(options) {
-			this.playId = options.playId
-			this.playListId = options.playListId
-			if (!options.isFromWidget) {
-				this.getSongDetail(this.playId)
-				this.getSongUrl(this.playId)
-				this.getLyric(this.playId)
-				this.$store.commit('song/SET_PLAY_ID', this.playId)
+		computed: {
+			userInfo() {
+				return this.$store.state.user.userInfo
 			}
 		},
+		created() {
+			if (!this.userInfo) {
+				uni.navigateTo({
+					url: '/pages/login/login',
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+				return
+			}
+			this.getPersonalFM()
+		},
 		methods: {
+			getPersonalFM() {
+				this.hasLoad = false
+				getPersonalFM().then(res => {
+					// console.log(res)
+					let data = res.data[0]
+					this.playId = data.id
+					this.getSongDetail(this.playId)
+					this.getSongUrl(this.playId)
+					this.getLyric(this.playId)
+					this.$store.commit('song/SET_PLAY_ID', this.playId)
+				})
+			},
 			// 获取歌曲信息
 			async getSongDetail(ids) {
 				let res = await getSongDetail(ids)
 				if (res.code !== 200 || !res.songs.length) {
 					return
 				}
-				// console.log(res)
 				this.songInfo = res.songs[0]
 				this.$store.commit('song/SET_SONG_INFO', this.songInfo)
 				// 设置标题
-				let title = this.songInfo.name
-				if (this.songInfo.alia.length) {
-					title += '(' + this.songInfo.alia[0] + ')'
-				}
 				uni.setNavigationBarTitle({
-					title 
+					title: '私人FM'
 				})
 			},
 			// 获取歌曲音频
@@ -100,7 +106,6 @@
 			// 获取歌词
 			getLyric(id) {
 				getLyric(id).then(res => {
-					// console.log(res)
 					this.lyric = res.lrc.lyric || ''
 				})
 			},
@@ -118,33 +123,24 @@
 				this.showMask = true
 				this.showSongInfoBox = true
 			},
-			openPlayList() {
-				this.showPlayList = true
-				this.showMask = true
-			},
 			closeMask() {
 				this.showMask = false
 				this.showSongInfoBox = false
-				this.showPlayList = false
-			},
-			changeSong(item) {
-				this.getSongDetail(item.id)
-				this.getSongUrl(item.id)
-				this.getLyric(item.id)
-				this.$store.commit('song/SET_PLAY_ID', item.id)
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-.mask-container {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 9;
-	background-color: #0000007a;
+.personal-fm-container {
+	.mask-container {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 9;
+		background-color: #0000007a;
+	}
 }
 </style>

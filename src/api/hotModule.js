@@ -2,8 +2,8 @@ import request from '../utils/request.js'
 /**
  * @name 热门话题
  */
-function getHotTopic(limit = 9, offset = 0) {
-	return request({ url: '/hot/topic?limit=' + limit + '&offset=' + offset })
+function getHotTopic(params) {
+	return request({ url: '/hot/topic?timestamp=' + new Date().getTime(), data: params })
 }
 
 /**
@@ -23,7 +23,7 @@ function getTopicDetailEvent(actid) {
 }
 
 export {
-	getHotTopic，
+	getHotTopic,
 	getHotTopicDetail,
 	getTopicDetailEvent
 }

@@ -38,11 +38,27 @@
 		        "enablePullDownRefresh": false
 		    } 
 		}
+		,{
+		    "path" : "pages/Sprinkler/sprinkDetail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    } 
+		}
+		,{
+		    "path" : "pages/Sprinkler/components/play",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    } 
+		}
         ,{
             "path" : "pages/focus/focus",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "动态",
                 "enablePullDownRefresh": false
             }
             
@@ -135,6 +151,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/personalFM/personalFM",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/artist/artist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar" : {
 		"color" : "#9c9c9c",
@@ -164,12 +198,6 @@
 			{
 				"pagePath":"pages/focus/focus",
 				"text":"关注",
-				"iconPath":"/static/tabbar/cm2_btm_icn_music.png",
-				"selectedIconPath":"/static/tabbar/cm2_btm_icn_music_prs.png"
-			},
-			{
-				"pagePath":"pages/cloudVillage/cloudVillage",
-				"text":"云村",
 				"iconPath":"/static/tabbar/cm2_btm_icn_music.png",
 				"selectedIconPath":"/static/tabbar/cm2_btm_icn_music_prs.png"
 			}

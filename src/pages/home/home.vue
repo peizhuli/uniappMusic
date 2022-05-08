@@ -60,17 +60,21 @@
 				</view>
 			</scroll-view>
 		</view>
+		<play-widget v-if="playId"></play-widget>
 	</view>
 </template>
 
 <script>
+	import { mapState } from 'vuex';
 	import { getRecommendSongs, getRecommendResource } from '../../api/songs.js'
 	import { getTopList } from '../../api/toplist.js'
 	import { getPlayListTrack } from '../../api/songs.js'
 	import banner from './banner.vue'
+	import playWidget from '../play/playWidget.vue'
 	export default {
 		components: {
-			banner
+			banner,
+			playWidget
 		},
 		data() {
 			return {
@@ -85,7 +89,7 @@
 						id: '2',
 						icon: '../../static/icon/cm2_discover_icn_recmd@2x.png',
 						name: '私人FM',
-						url: '/pages/playlist/playlist'
+						url: '/pages/personalFM/personalFM'
 					},
 					{
 						id: '3',
@@ -103,13 +107,13 @@
 						id: '5',
 						icon: '../../static/icon/cm2_discover_icn_recmd@2x.png',
 						name: '直播',
-						url: '/pages/playlist/playlist'
+						url: ''
 					},
 					{
 						id: '6',
 						icon: '../../static/icon/cm2_discover_icn_recmd@2x.png',
 						name: '数字',
-						url: '/pages/playlist/playlist'
+						url: ''
 					}
 				],
 				recommondResources: [],
@@ -125,6 +129,9 @@
 					}
 				]
 			}
+		},
+		computed: {
+			...mapState('song', ['isPlaying', 'playlist', 'playId']),
 		},
 		created() {
 			this.getRecommendResource() //获取推荐歌单

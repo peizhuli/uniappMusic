@@ -21,15 +21,15 @@ function getDJRecommend(limit) {
  * limit : 返回数量 , 默认为 30
 offset : 偏移数量，用于分页
  */
-function getDJHot(data) {
-	return request({ url: '/dj/hot', data: params })
+function getDJHot(limit = 30, offset = 0) {
+	return request({ url: '/dj/hot', data: { limit, offset } })
 }
 
 /**
 @name  登录后调用此接口 , 可获得电台类型
  */
-function getDJCatelist() {
-	return request({ url: '/dj/catelist' })
+function getDJCatelist(params) {
+	return request({ url: '/dj/catelist', data: params })
 }
 
 /**
@@ -37,7 +37,7 @@ function getDJCatelist() {
  * @param {Object} data
  * 必选参数 : type: 电台类型 , 数字 , 可通过/dj/catelist获取 , 对应关系为 id 对应 此接口的 type, name 对应类型
  */
-function getDJType(data) {
+function getDJType(params) {
 	return request({ url: '/dj/recommend/type', data: params })
 }
 
@@ -56,7 +56,7 @@ function getDJDetail(id) {
 offset : 偏移数量，用于分页 , 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
 asc : 排序方式,默认为 false (新 => 老 ) 设置 true 可改为 老 => 新
  */
-function getDJProgram(data) {
+function getDJProgram(params) {
 	return request({ url: '/dj/program', data: params })
 }
 

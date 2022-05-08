@@ -29,7 +29,7 @@
 							<text>{{ item.name }}</text>
 						    <text class="alias" v-if="item.alia.length">{{ item.alia[0] }}</text>
 						</view>
-						<view class="item-artist">
+						<view class="item-artist" @click.stop="gotoArtist(item.ar[0].id)">
 							<text>{{ item.ar[0].name }}</text>
 							<text v-if="item.ar.length > 1"> / {{ item.ar[1].name }}</text>
 						</view>
@@ -80,6 +80,11 @@
 				this.$store.commit('song/SET_PLAYLIST', this.playlist.tracks)
 				uni.navigateTo({
 					url: '/pages/play/play?playId=' + item.id + '&playlistId=' + this.playlistId
+				})
+			},
+			gotoArtist(id) {
+				uni.navigateTo({
+					url: '/pages/artist/artist?artistId=' + id
 				})
 			}
 		}

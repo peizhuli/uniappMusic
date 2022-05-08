@@ -47,7 +47,7 @@
 		width: 94%;
 		height: 650rpx;
 		padding: 30rpx;
-		position: absolute;
+		position: fixed;
 		bottom: 0;
 		left: 3%;
 		border-radius: 30rpx 30rpx 0 0;

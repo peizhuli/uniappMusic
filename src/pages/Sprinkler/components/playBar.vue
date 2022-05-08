@@ -4,7 +4,7 @@
 			<text>{{ currentTimeText }}</text>
 		</view>
 		<view class="slide-bar">
-			<slider class="slider" v-model="currentTime" min="0" :max="duration" @change="sliderChange" activeColor="#ffffff" backgroundColor="#969696" block-color="#dfd8d8" block-size="6" />
+			<slider class="slider" v-model="currentTime" min="0" :max="duration" @change="sliderChange" activeColor="#ffffff" backgroundColor="#dddddd" block-color="#dfd8d8" block-size="6" />
 		</view>
 		<view class="total-time">
 			<text>{{ totalTime }}</text>
@@ -96,7 +96,7 @@
 		justify-content: space-between;
 		align-items: flex-start;
 		width: 100%;
-		position: absolute;
+		// position: absolute;
 		bottom: 160rpx;
 		left: 0;
 		z-index: 5;
@@ -108,7 +108,7 @@
 		.total-time {
 			flex: 2;
 			text-align: center;
-			color: #aaa;
+			color: #eee;
 		}
 		.slide-bar {
 			flex: 10;

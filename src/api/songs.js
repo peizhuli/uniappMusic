@@ -49,8 +49,8 @@ function getRecommendResource(limit = 5) {
 /**
  * @name 获取推荐歌曲
  */
-function getRecommendSongs() {
-	return request({url: '/recommend/songs'})
+function getRecommendSongs(params) {
+	return request({ url: '/recommend/songs?t=' + new Date().getTime(), data: params })
 }
 
 /**

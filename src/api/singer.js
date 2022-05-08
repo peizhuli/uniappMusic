@@ -4,7 +4,7 @@ import request from '../utils/request.js'
  * @name 获取歌手单曲
  * @param {Object} id
  */
-function getArtists(id) {
+function getArtistsong(id) {
 	return request({ url: '/artists?id=' + id })
 }
 
@@ -22,8 +22,8 @@ function getArtistMV(id) {
  * @param {Object} limit
  * @param {Object} offset
  */
-function getArtistsAlbum(id, limit, offset) {
-	return request({ url: '/artist/album?id=' + id + '&limit=' + limit + '&offset=' + offset' })
+function getArtistsAlbum(id, limit = 20, offset = 0) {
+	return request({ url: '/artist/album?id=' + id + '&limit=' + limit + '&offset=' + offset })
 }
 
 /**
@@ -52,7 +52,7 @@ function getSimilarArtists(id) {
 
 
 export {
-	getArtists，
+	getArtistsong,
 	getArtistMV,
 	getArtistsAlbum,
 	getArtistsDesc,

@@ -53,13 +53,25 @@ function getPersonalizedPrivateList(limit, offset) {
 	return request({ url: '/personalized/privatecontent/list?limit=' + limit + '&offset=' + offset })
 }
 
+/**
+ * @name 私人FM
+ */
+function getPersonalFM() {
+	return request({ url: '/personal_fm?t=' + new Date().getTime() })
+}
+
+function getPrivateContent() {
+	return request({ url: '/personalized/privatecontent' })
+}
 
 export {
-	getPersonalizedMV，
+	getPersonalizedMV,
 	getPersonalizedSongList,
 	getPersonalizedSongs,
 	getPersonalizedDJ,
 	getPersonalizedProgram,
 	getPersonalizedPrivate,
-	getPersonalizedPrivateList
+	getPersonalizedPrivateList,
+	getPersonalFM,
+	getPrivateContent
 }

@@ -1,7 +1,7 @@
 <template>
 	<view class="login-container">
 		<view v-if="showLoginHome" class="home-container">
-			<view class="home-text">
+			<view class="home-text" @click="gotoHome">
 				<text class="text">立即体验</text>
 			</view>
 			<view class="login-content">
@@ -76,8 +76,8 @@
 				formData: {
 					phone: '',
 					code: '',
-					email: '',
-					password: ''
+					email: 'ifkeyi@163.com',
+					password: 'lipeizhu714'
 				}
 			};
 		},
@@ -94,7 +94,7 @@
 			},
 			getCode() {
 				getCaptcha(this.formData.phone).then(res => {
-					if (code === 200) {
+					if (res.code === 200) {
 						this.hasSendCode = true
 						timeout = setInterval(() => {
 							this.time--
@@ -141,7 +141,9 @@
 					// console.log(res)
 					if (res.code === 200) {
 						this.$store.commit('user/SET_USER_INFO', res)
-						uni.setStorageSync('userinfo' ,res);
+						uni.setStorageSync('userinfo', res.profile);
+						uni.setStorageSync('cookie', res.cookie);
+						// uni.setStorageSync('token', res.token);
 						uni.switchTab({
 							url: '/pages/user/user',
 							animationType: 'pop-in'
@@ -149,6 +151,12 @@
 					} else {
 						
 					}
+				})
+			},
+			gotoHome() {
+				uni.switchTab({
+					url: '/pages/home/home',
+					animationType: 'pop-in'
 				})
 			}
 		},
